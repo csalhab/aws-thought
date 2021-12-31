@@ -58,11 +58,12 @@ router.get("/users/:username", (req, res) => {
       "#un": "username",
       "#ca": "createdAt",
       "#th": "thought",
+      "#img": "image", //added the image attribute alias
     },
     ExpressionAttributeValues: {
       ":user": req.params.username,
     },
-    ProjectionExpression: "#th, #ca",
+    ProjectionExpression: "#un, #th, #ca, #img", // add the image to the database response
     ScanIndexForward: false,
   };
 
@@ -101,6 +102,7 @@ router.post("/users", (req, res) => {
       username: req.body.username,
       createdAt: Date.now(),
       thought: req.body.thought,
+      image: req.body.image,
     },
   };
   //In the preceding route, notice that we set the params object to the form data of the ThoughtForm, which we can access with req.body. Also notice that we use the JavaScript native Date object to set the value of the createdAt property. This is so that we know when this thought from the user was posted. Remember that we used the createdAt property as the sort key, which will help us sort the thoughts chronologically when we want to render them in the profile page.
